@@ -1,21 +1,14 @@
 <?php
     session_start();
 
-
-    if(isset($_POST["userName"])){
-     //   die("You are not allowed here. You need to <a href=^'ChatEnter.php'>login</a> !");
-     header("location:ChatEnter.php");
-        die();
-    }
-
     $host = "localhost";
     $user = "root";
     $psw = "";
     $db = "chat";
 
     $connection= new mysqli($host, $user, $psw, $db);
-    $sqlInsert = $connection->prepare("INSERT INTO users (userName) values(?)");
-    $sqlInsert->bind_param("s",$_POST["userName"]);
+    $sqlInsert = $connection->prepare("INSERT INTO users (UserName) values(?)");
+    $sqlInsert->bind_param("s",$_POST["UserName"]);
     $sqlInsert->execute();
 ?>
 
@@ -31,6 +24,9 @@
     <script src="myJS.js"></script>
 </head>
 <body>
+<?php
+    include_once("messaging.php");
+?>
 
     <?php
         if(isset($_POST["logout"])){
@@ -43,10 +39,13 @@
 
 
     <h1>Welcome to the chatroom.</h1>
-    <input type="textbox" id="msg">
-    <input id="myUser" type="hidden" value='<?=$_POST["userName"]?>'>
-    <button id="sendMsg">Send</button>
-
+    
+    <form method="POST">
+        <input type="textbox" id="msg">
+        <input id="myUser" type="hidden" value='<?=$_POST["UserName"]?>'>
+        <button id="sendMsg">Send</button>
+        <button id="logout">logout</button>
+    </form>
 
 </body>
 </html>

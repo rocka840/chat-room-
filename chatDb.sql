@@ -1,10 +1,10 @@
-drop database chat;
+
 create database chat;
 use chat;
 
 create table users(
-    userId int not null AUTO_INCREMENT,
-    userName varchar(20) unique,
+    UserId int not null AUTO_INCREMENT,
+    UserName varchar(20) unique,
     primary key (userId)
 );
 

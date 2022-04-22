@@ -7,6 +7,7 @@ function start(){
 function sendMessage(){
     $.post("messaging.php",{
         user:$("myUser").val(),
-        contents:$("msg").val()
+        contents:$("sendmsg").val()
     });
 }
+
