@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
 
     if(isset($_POST["userName"])){
      //   die("You are not allowed here. You need to <a href=^'ChatEnter.php'>login</a> !");
@@ -29,6 +31,17 @@
     <script src="myJS.js"></script>
 </head>
 <body>
+
+    <?php
+        if(isset($_POST["logout"])){
+            session_unset();
+            session_destroy();
+            header("Location: .../chatroom/ChatEnter.php");
+            die();
+        }
+    ?>
+
+
     <h1>Welcome to the chatroom.</h1>
     <input type="textbox" id="msg">
     <input id="myUser" type="hidden" value='<?=$_POST["userName"]?>'>

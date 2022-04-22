@@ -9,11 +9,19 @@
     <script src='main.js'></script>
 </head>
 <body>
+
+<?php
+    if($_POST["userName"]){
+        header("Location: ../chatroom/ChatRoom.php");
+        die();
+    }
+?>
+
         <h1>
             Welcome to our chatroom entry point:
         </h1>
 
-        <form method="POST" action="ChatRoom.php">
+        <form method="POST">
             Please type-in your username:
             <input name="userName">
             <input type="submit" value="Enter">
