@@ -1,14 +1,32 @@
 <?php
-if(isset($_POST["user"],$_POST["contents"])){
+    session_start();
+
     $host="localhost";
     $user="root";
     $psw="";
     $db="chat";
 
-    $connection = new mysqli($host,$user,$psw,$db);
+    $connection = mysqli_connect($host,$user,$psw,$db);
+
+    if(!$connection){
+        die("Connection failed: ". mysqli_connect_error());
+    }
     
-    $sqlInsert = $connection->prepare("Insert into messages (msgTime, msgText, fromUser) values(now(),?,(SELECT UserId from users where UserName=?))");
-    $sqlInsert->bind_param("ssi",$_POST["user"],$_POST["contents"]);
+    if(isset($_SESSION["UserName"], $_POST["msg"])){
+       // msgId	msgUser	msgTime	msgText	
+    $sqlInsert = $connection->prepare("INSERT INTO messages (msgUser, msgText, msgTime) VALUES (?, ?, NOW())");
+    $sqlInsert->bind_param("ss",$_SESSION["UserName"],$_POST["msg"]);
     $sqlInsert->execute();
-}
+    } else {
+        $sql = "SELECT * FROM messages";
+        $result = mysqli_query($connection, $sql);
+        $json_results = [];
+
+        if(mysqli_num_rows($result) > 0){
+            while($row = mysqli_fetch_assoc($result)){
+                array_push($json_results, $row);
+            }
+        }
+        echo json_encode($json_results);
+    }
 ?>

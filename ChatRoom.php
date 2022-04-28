@@ -1,17 +1,3 @@
-<?php
-    session_start();
-
-    $host = "localhost";
-    $user = "root";
-    $psw = "";
-    $db = "chat";
-
-    $connection= new mysqli($host, $user, $psw, $db);
-    $sqlInsert = $connection->prepare("INSERT INTO users (UserName) values(?)");
-    $sqlInsert->bind_param("s",$_POST["UserName"]);
-    $sqlInsert->execute();
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,32 +6,42 @@
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-    <script src="myJS.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
-<body>
-<?php
-    include_once("messaging.php");
-?>
 
+<body>
+    
     <?php
+     session_start();
+
         if(isset($_POST["logout"])){
-            session_unset();
+            unset($_SESSION["UserName"]);
             session_destroy();
-            header("Location: .../chatroom/ChatEnter.php");
+            header("Location: ChatEnter.php");
             die();
         }
     ?>
 
 
-    <h1>Welcome to the chatroom.</h1>
+    <h1>Welcome to the chatroom!</h1>
+
+    <div>
+        <table id="chatBox">
+            <tbody></tbody>
+        </table>
+    </div>
     
     <form method="POST">
-        <input type="textbox" id="msg">
-        <input id="myUser" type="hidden" value='<?=$_POST["UserName"]?>'>
-        <button id="sendMsg">Send</button>
-        <button id="logout">logout</button>
+        <input type="text" id="msg">
+        <input id="myUser" type="hidden" value='<?=$_SESSION["UserName"]?>'>
+        <input type="button" name="sendMsg" value="send" id="sendMsg">
+    </form>
+
+    <form method="POST">
+        <input type="submit" name="logout" value="logout"></input>
     </form>
 
 </body>
+<script src="myJS.js"></script>
 </html>
