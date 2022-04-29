@@ -20,26 +20,26 @@ $("#sendMsg").on('click', function() {
   });
 
 function checkDatabase() {
-  $.getJSON( "messaging.php", function( data ) { // ALMOST ALL of this is taken from the example in https://api.jquery.com/jquery.getjson/ sorry if its complicated
+  $.getJSON( "messaging.php", function( data ) { 
     var items = [];
     $.each( data, function( key, val ) {
-      if(!lastMessages.includes(JSON.stringify(val))) {// if message is not already stored (NEED TO STORE AS A STRING)
-        lastMessages.push(JSON.stringify(val)); // add message to already known message list
+      if(!lastMessages.includes(JSON.stringify(val))) {
+        lastMessages.push(JSON.stringify(val));
 
-        items.push("<tr>"); // open table row
+        items.push("<tr>");
         items.push("<td>" + val.msgUser + "</td>");
         items.push("<td>" + val.msgText + "</td>");
-        items.push("<tr>"); // close table row
+        items.push("<tr>");
       }
     });
    
-    for(var i = 0; i < items.length; i++) { // for every message
-      var item = items[i]; // message content
-      $('#chatBox > tbody:last-child').append(item); // add content to table
+    for(var i = 0; i < items.length; i++) { 
+      var item = items[i];
+      $('#chatBox > tbody:last-child').append(item);
     }
   });
 }
 
-setInterval(checkDatabase, 500); // run checkDatabase every 0.5s
+setInterval(checkDatabase, 500);
 
 
